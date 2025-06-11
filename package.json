@@ -1,0 +1,12 @@
+{
+  "name": "lab2-fullstack",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/index.js",
+    "client": "cd client && npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0",
+    "nodemon": "^2.0.0"
+  }
+}
