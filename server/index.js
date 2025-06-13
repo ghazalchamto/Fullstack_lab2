@@ -1,20 +1,30 @@
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config({ path: path.resolve(__dirname, '.env') }); // ✅ Explicitly load .env from /server
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const employeeRoutes = require('./routes/employees');
-const projectRoutes = require('./routes/projects');
-const assignmentRoutes = require('./routes/projectAssignments');
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGODB_URI;
 
-app.use('/api/employees', employeeRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/project_assignments', assignmentRoutes);
+if (!MONGO_URI) {
+  console.error('❌ MONGODB_URI is undefined. Check your .env file.');
+  process.exit(1);
+}
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => app.listen(5000, () => console.log('Server running on port 5000')))
-  .catch(err => console.error(err));
+mongoose.connect(MONGO_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB error:', err));
+
+// Routes
+app.use('/api/employees', require('./routes/employees'));
+app.use('/api/projects', require('./routes/projects'));
+app.use('/api/project_assignments', require('./routes/projectAssignments'));
+
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
