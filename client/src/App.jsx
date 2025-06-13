@@ -18,7 +18,7 @@ export default function App() {
 
   useEffect(() => {
     fetchAssignments();
-    const interval = setInterval(fetchAssignments, 60000); // refresh every 60 sec
+    const interval = setInterval(fetchAssignments, 7500); // auto refresh every n sec
     return () => clearInterval(interval);
   }, []);
 
