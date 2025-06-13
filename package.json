@@ -1,12 +1,13 @@
 {
-  "name": "lab2-fullstack",
+  "name": "fullstack_lab2",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "nodemon server/index.js",
-    "client": "cd client && npm run dev"
+    "dev": "concurrently \"npm run server --prefix server\" \"npm run dev --prefix client\"",
+    "server": "npm start --prefix server",
+    "client": "npm run dev --prefix client"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "nodemon": "^2.0.0"
+    "concurrently": "^8.0.0"
   }
 }
